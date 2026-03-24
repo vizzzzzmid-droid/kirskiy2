@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)https://vizzzzzmid265148584.adaptive.ai/cdn/noga_gallery.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Галерея — Кирилл Шулятьев</title>
+<link href="./Галерея — Кирилл Шулятьев_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5efe6;
+    --bg2: #ede3d5;
+    --card: #faf6f0;
+    --brown: #6b4c2a;
+    --brown-light: #a07850;
+    --accent: #c9773a;
+    --text: #3a2e24;
+    --muted: #9c8878;
+    --border: rgba(107,76,42,.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(107,76,42,.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(201,119,58,.12), transparent 70%);
+    top: -150px; right: -150px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 16px 48px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(107,76,42,.1);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 18px;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--brown-light);
+    font-weight: 600;
+    margin-bottom: 20px;
+    animation: fadeDown .7s ease both;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 8vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--brown);
+    margin-bottom: 14px;
+    animation: fadeDown .8s .1s ease both;
+  }
+
+  h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--accent), var(--brown));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: .95rem;
+    animation: fadeDown .8s .2s ease both;
+  }
+
+  .divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--brown-light));
+    border-radius: 999px;
+    margin: 20px auto 0;
+    opacity: .6;
+    animation: fadeDown .8s .25s ease both;
+  }
+
+  /* ── GRID ── */
+  .gallery {
+    position: relative;
+    z-index: 1;
+    padding: 0 16px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+  @media (max-width: 420px) {
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(107,76,42,.07);
+    cursor: pointer;
+    transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s;
+    position: relative;
+
+    /* scroll animation — начальное состояние */
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  .card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.4,0,.2,1), box-shadow .3s, filter .3s;
+  }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(107,76,42,.15);
+  }
+
+  /* широкая карточка */
+  .card.wide {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 700px) {
+    .card.wide { grid-column: span 1; }
+  }
+
+  /* ── ФОТО ВНУТРИ ── */
+  .card-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    background: var(--bg2);
+    transition: transform .4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .card.wide .card-img {
+    aspect-ratio: 2 / 1;
+  }
+
+  .card:hover .card-img {
+    transform: scale(1.05);
+  }
+
+  /* пустой слот */
+  .card-empty .card-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--muted);
+    background: var(--bg2);
+    aspect-ratio: 1 / 1;
+    width: 100%;
+  }
+
+  .card.wide .card-empty .card-img {
+    aspect-ratio: 2 / 1;
+  }
+
+  .slot-placeholder {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--bg2);
+    color: var(--muted);
+    aspect-ratio: 1 / 1;
+  }
+
+  .card.wide .slot-placeholder {
+    aspect-ratio: 2 / 1;
+  }
+
+  .slot-placeholder .icon {
+    font-size: 2.2rem;
+    opacity: .5;
+  }
+
+  .slot-placeholder .label {
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    opacity: .5;
+  }
+
+  /* ── ПОДПИСЬ ── */
+  .card-caption {
+    padding: 14px 16px;
+  }
+
+  .card-caption .title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--brown);
+    margin-bottom: 3px;
+  }
+
+  .card-caption .desc {
+    font-size: .78rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(30, 20, 10, .92);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(8px);
+    animation: fadeIn .2s ease;
+  }
+
+  .lightbox.open {
+    display: flex;
+  }
+
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 88vh;
+    border-radius: 16px;
+    object-fit: contain;
+    box-shadow: 0 24px 80px rgba(0,0,0,.5);
+    animation: zoomIn .25s cubic-bezier(.4,0,.2,1);
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.12);
+    border: none;
+    color: #fff;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .lightbox-close:hover { background: rgba(255,255,255,.22); }
+
+  /* ── BACK LINK ── */
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--brown-light);
+    font-size: .85rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color .2s;
+    position: relative;
+    z-index: 1;
+    padding: 0 16px;
+  }
+
+  .back:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes zoomIn {
+    from { opacity: 0; transform: scale(.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="https://vizzzzzmid265148584.adaptive.ai/" class="back" style="display:inline-flex;margin-bottom:0;padding:0;">← На главную</a>
+  <br><br>
+  <div class="badge">📸 Галерея</div>
+  <h1>Мои <em>фотки</em></h1>
+  <p class="subtitle">Листай, смотри, завидуй 🦶</p>
+  <div class="divider"></div>
+</div>
+
+<div class="gallery">
+  <div class="grid">
+
+    <!-- Слот 1 — широкий -->
+    <div class="card wide visible" onclick="openLightbox(this)">
+      <!-- ЗАМЕНИ src на свою фотку -->
+      <img class="card-img" src="https://i.imgur.com/kL6zHY3.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 2 -->
+    <div class="card visible" onclick="openLightbox(this)">
+      <img class="card-img" src="https://i.imgur.com/iqWVk88.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title">Название фото</div>
+        <div class="desc">Описание</div>
+      </div>
+    </div>
+
+    <!-- Слот 3 -->
+    <div class="card visible" onclick="openLightbox(this)">
+     <img class="card-img" src="https://i.imgur.com/MR0vJVO.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 4 -->
+    <div class="card visible" onclick="openLightbox(this)">
+      <img class="card-img" src="https://i.imgur.com/y2YMSj6.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 5 — широкий -->
+    <div class="card wide visible" onclick="openLightbox(this)">
+      <img class="card-img" src="https://i.imgur.com/TA6VWF5.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 6 -->
+    <div class="card visible" onclick="openLightbox(this)">
+     <img class="card-img" src="https://i.imgur.com/EmFF4EC.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 7 -->
+    <div class="card visible" onclick="openLightbox(this)">
+      <img class="card-img" src="https://i.imgur.com/tnSpP7k.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title">	</div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 8 -->
+    <div class="card visible" onclick="openLightbox(this)">
+      <img class="card-img" src="https://i.imgur.com/D8Xr9I4.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+    <!-- Слот 9 -->
+    <div class="card visible" onclick="openLightbox(this)">
+     <img class="card-img" src="https://i.imgur.com/3g2e6s9.png" alt=""><div class="label"></div></div>
+      <div class="card-caption">
+        <div class="title"></div>
+        <div class="desc"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="https://vizzzzzmid265148584.adaptive.ai/cdn/noga_gallery.html" alt="">
+</div>
+
+<script>
+  // ── Scroll animation ──
+  var cards = document.querySelectorAll('.card');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry, i) {
+      if (entry.isIntersecting) {
+        // задержка по порядку карточки
+        var idx = Array.from(cards).indexOf(entry.target);
+        setTimeout(function() {
+          entry.target.classList.add('visible');
+        }, (idx % 3) * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(function(card) { observer.observe(card); });
+
+  // ── Lightbox ──
+  function openLightbox(card) {
+    var img = card.querySelector('img.card-img');
+    if (!img) return; // пустой слот — не открываем
+    document.getElementById('lightboxImg').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+<script defer="" src="./Галерея — Кирилл Шулятьев_files/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;eabd7e6de1a549b6ad06164702093359&quot;,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+</body></html>
