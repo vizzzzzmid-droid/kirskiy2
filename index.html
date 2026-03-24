@@ -891,6 +891,61 @@
   </div>
 </section>
 
+<!-- ═══ RADIO ═══ -->
+<section style="padding: 40px 16px; background: var(--bg2);">
+  <div style="max-width: 480px; margin: 0 auto; text-align: center;">
+    <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:900; color:var(--brown); margin-bottom:6px;">🎷 Фоновая музыка</h2>
+    <p style="font-size:.85rem; color:var(--muted); margin-bottom:24px;">Пока думаешь — слушай джаз</p>
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:24px; padding:24px 24px; box-shadow:0 8px 32px rgba(107,76,42,.08); display:flex; align-items:center; gap:18px;">
+      <button id="radioBtn" onclick="toggleRadio()" style="width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--brown));color:#fff;font-size:1.4rem;box-shadow:0 6px 20px rgba(107,76,42,.3);transition:transform .2s;display:flex;align-items:center;justify-content:center;">▶</button>
+      <div style="text-align:left; flex:1; min-width:0;">
+        <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.05rem;color:var(--brown);">Jazz Radio</div>
+        <div id="radioStatus" style="font-size:.78rem;color:var(--muted);margin-top:2px;">Нажми play</div>
+        <div style="margin-top:10px;height:4px;background:var(--border);border-radius:99px;overflow:hidden;">
+          <div id="radioBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--brown));border-radius:99px;transition:width .8s linear;"></div>
+        </div>
+        <div style="margin-top:14px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:.9rem;">🔈</span>
+          <input id="volSlider" type="range" min="0" max="100" value="10" oninput="setVol(this.value)" style="
+            flex:1; height:4px; border-radius:99px; cursor:pointer; appearance:none; -webkit-appearance:none;
+            background: linear-gradient(to right, var(--accent) 10%, var(--border) 10%);
+            outline:none; border:none;
+          ">
+          <span style="font-size:.9rem;">🔊</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<audio id="radioAudio" src="https://jazz-wr01.ice.infomaniak.ch/jazz-wr01-128.mp3" preload="none"></audio>
+<style>
+  #volSlider::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:var(--accent); cursor:pointer; box-shadow:0 2px 6px rgba(107,76,42,.3); }
+  #volSlider::-moz-range-thumb { width:14px; height:14px; border-radius:50%; background:var(--accent); cursor:pointer; border:none; box-shadow:0 2px 6px rgba(107,76,42,.3); }
+</style>
+<script>
+  var _playing = false, _bar = 0, _timer;
+  var _audio = document.getElementById('radioAudio');
+  _audio.volume = 0.1;
+  function setVol(v) {
+    _audio.volume = v / 100;
+    var sl = document.getElementById('volSlider');
+    sl.style.background = 'linear-gradient(to right, var(--accent) ' + v + '%, var(--border) ' + v + '%)';
+  }
+  function toggleRadio() {
+    var a = _audio;
+    var btn = document.getElementById('radioBtn');
+    var st = document.getElementById('radioStatus');
+    var bar = document.getElementById('radioBar');
+    if (!_playing) {
+      a.play(); btn.textContent = '⏸'; st.textContent = '🎵 В эфире...'; _playing = true;
+      _timer = setInterval(function(){ _bar = _bar >= 100 ? 0 : _bar + 1; bar.style.width = _bar + '%'; }, 300);
+    } else {
+      a.pause(); btn.textContent = '▶'; st.textContent = 'Пауза'; _playing = false; clearInterval(_timer);
+    }
+  }
+</script>
+
 <!-- ═══ STICKY MOBILE CTA ═══ -->
 <div class="sticky-cta">
   <a href="https://t.me/kirskiy" target="_blank" rel="noopener">
