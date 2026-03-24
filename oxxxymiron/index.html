@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>.</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    transform-origin: center center;
+    transition: transform 0.05s ease;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* wiggle */
+  @keyframes wiggle {
+    0%   { transform: rotate(0deg) scale(1); }
+    10%  { transform: rotate(-8deg) scale(1.05); }
+    20%  { transform: rotate(8deg) scale(1.05); }
+    30%  { transform: rotate(-6deg) scale(1.08); }
+    40%  { transform: rotate(6deg) scale(1.08); }
+    50%  { transform: rotate(-4deg) scale(1.05); }
+    60%  { transform: rotate(4deg) scale(1.05); }
+    70%  { transform: rotate(-2deg) scale(1.02); }
+    80%  { transform: rotate(2deg) scale(1.02); }
+    90%  { transform: rotate(-1deg) scale(1); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+
+  /* spin */
+  @keyframes spinZoom {
+    0%   { transform: rotate(0deg) scale(1); }
+    40%  { transform: rotate(360deg) scale(1.15); }
+    70%  { transform: rotate(700deg) scale(0.9); }
+    100% { transform: rotate(720deg) scale(1); }
+  }
+
+  /* bounce */
+  @keyframes bounce {
+    0%   { transform: translateY(0) scale(1); }
+    20%  { transform: translateY(-40px) scale(1.1); }
+    40%  { transform: translateY(0) scale(0.95); }
+    60%  { transform: translateY(-20px) scale(1.05); }
+    80%  { transform: translateY(0) scale(0.98); }
+    100% { transform: translateY(0) scale(1); }
+  }
+
+  /* shake */
+  @keyframes shake {
+    0%,100% { transform: translateX(0) rotate(0deg); }
+    10%  { transform: translateX(-15px) rotate(-3deg); }
+    20%  { transform: translateX(15px) rotate(3deg); }
+    30%  { transform: translateX(-12px) rotate(-2deg); }
+    40%  { transform: translateX(12px) rotate(2deg); }
+    50%  { transform: translateX(-8px) rotate(-1deg); }
+    60%  { transform: translateX(8px) rotate(1deg); }
+    70%  { transform: translateX(-4px); }
+    80%  { transform: translateX(4px); }
+    90%  { transform: translateX(-2px); }
+  }
+
+  /* flip */
+  @keyframes flip {
+    0%   { transform: perspective(400px) rotateY(0deg); }
+    50%  { transform: perspective(400px) rotateY(180deg) scale(1.1); }
+    100% { transform: perspective(400px) rotateY(360deg); }
+  }
+
+  .anim-wiggle  { animation: wiggle 0.8s ease both; }
+  .anim-spin    { animation: spinZoom 1s cubic-bezier(.4,0,.2,1) both; }
+  .anim-bounce  { animation: bounce 0.8s ease both; }
+  .anim-shake   { animation: shake 0.7s ease both; }
+  .anim-flip    { animation: flip 0.9s ease both; }
+</style>
+</head>
+<body>
+  <img id="photo" src="https://vizzzzzmid265148584.adaptive.ai/cdn/ThkhmVf9hm4cXEHJdNjcG4zTYripD8F9.png" alt="" onclick="doAnim()">
+
+<script>
+  var anims = ['anim-wiggle', 'anim-spin', 'anim-bounce', 'anim-shake', 'anim-flip'];
+  var idx = 0;
+  var running = false;
+
+  function doAnim() {
+    if (running) return;
+    running = true;
+    var img = document.getElementById('photo');
+    var cls = anims[idx % anims.length];
+    idx++;
+    img.classList.add(cls);
+    img.addEventListener('animationend', function handler() {
+      img.classList.remove(cls);
+      img.removeEventListener('animationend', handler);
+      running = false;
+    });
+  }
+</script>
+</body>
+</html>
